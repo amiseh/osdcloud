@@ -162,8 +162,10 @@ Write-Output "driverpack unpack DEBUG start details: Start-Process -FilePath $To
 $Process = Start-Process -FilePath $ToolPath -ArgumentList $ToolArg -Wait -PassThru
 
 Write-Output ""
+remove-item $ToolPath -Force
 
 #Restart
 #restart-computer
+
 
 
