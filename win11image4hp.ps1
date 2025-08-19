@@ -53,19 +53,6 @@ function Write-SectionSuccess {
     Write-Host -ForegroundColor Green $Message
 }
 
-function Test-HPIASupport {
-    $CabPath = "$env:TEMP\platformList.cab"
-    $XMLPath = "$env:TEMP\platformList.xml"
-    $PlatformListCabURL = "https://hpia.hpcloud.hp.com/ref/platformList.cab"
-    Invoke-WebRequest -Uri $PlatformListCabURL -OutFile $CabPath -UseBasicParsing
-    $Expand = expand $CabPath $XMLPath
-    [xml]$XML = Get-Content $XMLPath
-    $Platforms = $XML.ImagePal.Platform.SystemID
-    $MachinePlatform = (Get-CimInstance -Namespace root/cimv2 -ClassName Win32_BaseBoard).Product
-    if ($MachinePlatform -in $Platforms){$HPIASupport = $true}
-    else {$HPIASupport = $false}
-    return $HPIASupport
-}
 #endregion
 
 $ScriptName = 'OSDcloud script based on code from Gary'
@@ -100,6 +87,32 @@ $Global:MyOSDCloud = [ordered]@{
 
 ############ do usuniecia ############
 
+write-host -ForegroundColor DarkGray "========================================================="
+write-host -ForegroundColor Cyan "HP Functions"
+
+#HPIA Functions
+Write-Host -ForegroundColor Green "[+] Function Get-HPIALatestVersion"
+Write-Host -ForegroundColor Green "[+] Function Install-HPIA"
+Write-Host -ForegroundColor Green "[+] Function Run-HPIA"
+Write-Host -ForegroundColor Green "[+] Function Get-HPIAXMLResult"
+Write-Host -ForegroundColor Green "[+] Function Get-HPIAJSONResult"
+iex (irm https://raw.githubusercontent.com/gwblok/garytown/master/hardware/HP/HPIA/HPIA-Functions.ps1)
+
+#HP CMSL WinPE replacement
+Write-Host -ForegroundColor Green "[+] Function Get-HPOSSupport"
+Write-Host -ForegroundColor Green "[+] Function Get-HPSoftpaqListLatest"
+Write-Host -ForegroundColor Green "[+] Function Get-HPSoftpaqItems"
+Write-Host -ForegroundColor Green "[+] Function Get-HPDriverPackLatest"
+iex (irm https://raw.githubusercontent.com/OSDeploy/OSD/master/Public/OSDCloudTS/Test-HPIASupport.ps1)
+
+#Install-ModuleHPCMSL
+Write-Host -ForegroundColor Green "[+] Function Install-ModuleHPCMSL"
+iex (irm https://raw.githubusercontent.com/gwblok/garytown/master/hardware/HP/EMPS/Install-ModuleHPCMSL.ps1)
+
+Write-Host -ForegroundColor Green "[+] Function Invoke-HPAnalyzer"
+Write-Host -ForegroundColor Green "[+] Function Invoke-HPDriverUpdate"
+iex (irm https://raw.githubusercontent.com/gwblok/garytown/master/hardware/HP/EMPS/Invoke-HPDriverUpdate.ps1)
+
 #Testing MS Update Catalog Driver Sync
 #$Global:MyOSDCloud.DriverPackName = 'Microsoft Update Catalog'
 #Used to Determine Driver Pack
@@ -121,7 +134,7 @@ if (Test-HPIASupport){
     $Global:MyOSDCloud.HPBIOSWinUpdate = [bool]$false   
     $Global:MyOSDCloud.HPIAALL = [bool]$true
     $Global:MyOSDCloud.HPBIOSUpdate = [bool]$true
-    #$Global:MyOSDCloud.HPCMSLDriverPackLatest = [bool]$true #In Test
+    $Global:MyOSDCloud.HPCMSLDriverPackLatest = [bool]$true #In Test
 }
 
 #write variables to console
@@ -143,4 +156,5 @@ Write-SectionHeader -Message "OSDCloud Process Complete, Running Custom Actions 
 
 #Restart
 restart-computer
+
 
