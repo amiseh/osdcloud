@@ -192,9 +192,10 @@ Remove-Item -Path C:\Drivers\ -Recurse -Force
 #dism.exe /image:C: /Apply-Unattend:D:\unattended-basic-config.xml
 
 xcopy D:\unattended-basic-config.xml c:\Windows\System32\Sysprep\Panther\Unattend\Unattend.xml /-I
-#xcopy D:\unattended-basic-config.xml c:\Windows\System32\Sysprep\Unattend.xml /-I
-#xcopy D:\unattended-basic-config.xml c:\Windows\System32\Sysprep\Panther\Unattend\Autounattend.xml /-I
-#xcopy D:\unattended-basic-config.xml c:\Windows\System32\Sysprep\Autounattend.xml /-I
+xcopy D:\unattended-basic-config.xml c:\Windows\System32\Sysprep\Unattend.xml /-I
+xcopy D:\unattended-basic-config.xml c:\Windows\System32\Sysprep\Panther\Unattend\Autounattend.xml /-I
+xcopy D:\unattended-basic-config.xml c:\Windows\System32\Sysprep\Autounattend.xml /-I
 
 #Restart
 restart-computer
+
