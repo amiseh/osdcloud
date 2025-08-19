@@ -150,8 +150,10 @@ Write-SectionHeader -Message "OSDCloud Process Complete, Running Custom Actions 
 #}
 
 #tworzenie driverpacka z najnowszymi sterownikami UWP
-New-HPUWPDriverPack -OS 'win11' -OSVer $OSReleaseID -Path 'C:\Drivers'
+$platformSystemID = get-wmiobject win32_baseboard | Select-Object product
+New-HPUWPDriverPack -Platform $platformSystemID.product -OS 'win11' -OSVer $OSReleaseID -Path 'C:\Drivers'
 
 #Restart
 restart-computer
+
 
