@@ -75,7 +75,7 @@ $Global:MyOSDCloud = [ordered]@{
     Restart = [bool]$False
     RecoveryPartition = [bool]$true
     OEMActivation = [bool]$True
-    WindowsUpdate = [bool]$true
+    WindowsUpdate = [bool]$false
     WindowsUpdateDrivers = [bool]$false
     WindowsDefenderUpdate = [bool]$true
     SetTimeZone = [bool]$true
@@ -156,5 +156,6 @@ Write-SectionHeader -Message "OSDCloud Process Complete, Running Custom Actions 
 
 #Restart
 restart-computer
+
 
 
