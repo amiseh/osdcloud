@@ -187,9 +187,5 @@ remove-item $ToolPath -Force
 Dism /Image:C: /Add-Driver /Driver:C:\Drivers /Recurse
 
 #Restart
+pause
 restart-computer
-
-
-
-
-
