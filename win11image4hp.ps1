@@ -146,6 +146,24 @@ write-host "Start-OSDCloud -OSName $OSName -OSEdition $OSEdition -OSActivation $
 Start-OSDCloud -OSName $OSName -OSEdition $OSEdition -OSActivation $OSActivation -OSLanguage $OSLanguage
 Write-SectionHeader -Message "OSDCloud Process Complete, Running Custom Actions From Script Before Reboot"
 
+$driverpackDetails = Get-HPDriverPackLatest
+$driverpackID = $driverpackDetails.Id
+[string]$ToolLocation = "C:\Drivers"
+
+$ToolPath = "$ToolLocation\$driverpackID.exe"
+if (!(Test-Path -Path $ToolPath)){
+    Write-Output "Unable to find $ToolPath"
+	pause
+    Exit -1
+}
+
+$ToolArg = "/s /f C:\Drivers\"
+Write-Output "driverpack unpack DEBUG start details: Start-Process -FilePath $ToolPath -ArgumentList $ToolArg -Wait -PassThru"
+$Process = Start-Process -FilePath $ToolPath -ArgumentList $ToolArg -Wait -PassThru
+
+Write-Output ""
+
 #Restart
 #restart-computer
+
 
