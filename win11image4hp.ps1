@@ -189,8 +189,6 @@ remove-item $ToolPath -Force
 Remove-Item -Path C:\Drivers\ -Recurse -Force
 
 #### adding some OOBE configuration
-#dism.exe /image:C: /Apply-Unattend:D:\unattended-basic-config.xml
-
 xcopy D:\unattended-basic-config.xml c:\Windows\System32\Sysprep\Panther\Unattend\Unattend.xml /-I
 xcopy D:\unattended-basic-config.xml c:\Windows\System32\Sysprep\Unattend.xml /-I
 xcopy D:\unattended-basic-config.xml c:\Windows\System32\Sysprep\Panther\Unattend\Autounattend.xml /-I
@@ -198,4 +196,5 @@ xcopy D:\unattended-basic-config.xml c:\Windows\System32\Sysprep\Autounattend.xm
 
 #Restart
 restart-computer
+
 
