@@ -123,8 +123,7 @@ if (Test-HPIASupport){
     $Global:MyOSDCloud.HPBIOSWinUpdate = [bool]$false   
     $Global:MyOSDCloud.HPIAALL = [bool]$true
     $Global:MyOSDCloud.HPBIOSUpdate = [bool]$true
-    $Global:MyOSDCloud.HPCMSLDriverPackLatest = [bool]$true #In Test
-
+    
     write-host "Setting DriverPackName to 'None'"
     $Global:MyOSDCloud.DriverPackName = "None"
 }
@@ -147,6 +146,7 @@ Write-SectionHeader -Message "OSDCloud Process Complete, Running Custom Actions 
 
 #Restart
 restart-computer
+
 
 
 
