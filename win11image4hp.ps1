@@ -186,6 +186,10 @@ remove-item $ToolPath -Force
 
 Remove-Item -Path C:\Drivers\ -Recurse -Force
 
+#### adding some OOBE configuration
+dism.exe /image:C: /Apply-Unattend:D:\unattended-basic-config.xml
+
 #Restart
 pause
 restart-computer
+
