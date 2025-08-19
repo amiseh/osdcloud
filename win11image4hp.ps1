@@ -121,20 +121,8 @@ if (Test-HPIASupport){
     $Global:MyOSDCloud.HPBIOSWinUpdate = [bool]$false   
     $Global:MyOSDCloud.HPIAALL = [bool]$true
     $Global:MyOSDCloud.HPBIOSUpdate = [bool]$true
-    #$Global:MyOSDCloud.HPCMSLDriverPackLatest = [bool]$true #In Test    
+    #$Global:MyOSDCloud.HPCMSLDriverPackLatest = [bool]$true #In Test
 }
-
-
-HPBIOSUpdateNotes":  "NA",
-                      "":  true,
-                      "":  false,
-                      "":  false,
-                      "":  false,
-                      "":  false,
-                      "":  true,
-                      "":  false
-
-
 
 #write variables to console
 Write-SectionHeader "OSDCloud Variables"
