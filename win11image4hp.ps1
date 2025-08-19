@@ -164,8 +164,12 @@ $Process = Start-Process -FilePath $ToolPath -ArgumentList $ToolArg -Wait -PassT
 Write-Output ""
 remove-item $ToolPath -Force
 
+$ToolPath = "$ToolLocation\$driverpackID.cva"
+remove-item $ToolPath -Force
+
 #Restart
-#restart-computer
+restart-computer
+
 
 
 
