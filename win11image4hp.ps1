@@ -178,14 +178,14 @@ $ToolArg = "/s /f C:\Drivers\"
 Write-Output "driverpack unpack DEBUG start details: Start-Process -FilePath $ToolPath -ArgumentList $ToolArg -Wait -PassThru"
 $Process = Start-Process -FilePath $ToolPath -ArgumentList $ToolArg -Wait -PassThru
 
-Write-Output ""
 remove-item $ToolPath -Force
-
 $ToolPath = "$ToolLocation\$driverpackID.cva"
 remove-item $ToolPath -Force
 
 Dism /Image:C: /Add-Driver /Driver:C:\Drivers /Recurse
+Remove-Item -Path C:\Drivers\ -Recurse -Force
 
 #Restart
 pause
 restart-computer
+
