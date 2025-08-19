@@ -10,6 +10,9 @@
 
 .Notes  
     Author: Tomasz Omelaniuk/HP Inc based on garytown blog
+
+ .Examples
+    Edit-OSDCloudWinPE -StartURL https://URL_to_the_script_/win11image4hp.ps1 -DriverPath C:\workspace_with_WINPE_drivers\DRIVERS -PSModuleInstall HPCMSL
 #>
 
 #### functions definitions
@@ -189,5 +192,4 @@ Remove-Item -Path C:\Drivers\ -Recurse -Force
 dism.exe /image:C: /Apply-Unattend:D:\unattended-basic-config.xml
 
 #Restart
-pause
 restart-computer
