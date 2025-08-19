@@ -62,6 +62,7 @@ Write-Host -ForegroundColor Green "$ScriptName $ScriptVersion"
 $Product = (Get-MyComputerProduct)
 $Model = (Get-MyComputerModel)
 $Manufacturer = (Get-CimInstance -ClassName Win32_ComputerSystem).Manufacturer
+
 $OSVersion = 'Windows 11' #Used to Determine Driver Pack
 $OSReleaseID = '23H2' #Used to Determine Driver Pack
 $OSName = 'Windows 11 23H2 x64'
@@ -149,7 +150,8 @@ Write-SectionHeader -Message "OSDCloud Process Complete, Running Custom Actions 
 #}
 
 #tworzenie driverpacka z najnowszymi sterownikami UWP
-New-HPUWPDriverPack -Path 'C:\Drivers'
+New-HPUWPDriverPack -OS 'win11' -OSVer $OSReleaseID -Path 'C:\Drivers'
 
 #Restart
 restart-computer
+
