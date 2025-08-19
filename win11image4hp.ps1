@@ -189,7 +189,7 @@ Remove-Item -Path C:\Drivers\ -Recurse -Force
 dism.exe /image:C: /Apply-Unattend:D:\unattended-basic-config.xml
 
 #Restart
-pause
 restart-computer
+
 
 
