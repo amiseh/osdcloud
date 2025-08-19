@@ -129,9 +129,11 @@ if (Test-HPIASupport){
     $Global:MyOSDCloud.DriverPackName = "None"
 }
 
-########### do usuniecia jak cos... jak zadziala tworzenie driverpacka
-#Testing MS Update Catalog Driver Sync
-#$Global:MyOSDCloud.DriverPackName = 'Microsoft Update Catalog'
+#Used to Determine Driver Pack
+$DriverPack = Get-OSDCloudDriverPack -Product $Product -OSVersion $OSVersion -OSReleaseID $OSReleaseID
+if ($DriverPack){
+    $Global:MyOSDCloud.DriverPackName = $DriverPack.Name
+}
 
 #write variables to console
 Write-SectionHeader "OSDCloud Variables"
@@ -144,16 +146,5 @@ write-host "Start-OSDCloud -OSName $OSName -OSEdition $OSEdition -OSActivation $
 Start-OSDCloud -OSName $OSName -OSEdition $OSEdition -OSActivation $OSActivation -OSLanguage $OSLanguage
 Write-SectionHeader -Message "OSDCloud Process Complete, Running Custom Actions From Script Before Reboot"
 
-#Copy CMTrace Local:
-#if (Test-path -path "x:\windows\system32\cmtrace.exe"){
-#    copy-item "x:\windows\system32\cmtrace.exe" -Destination "C:\Windows\System\cmtrace.exe" -verbose
-#}
-
-#tworzenie driverpacka z najnowszymi sterownikami UWP
-$platformSystemID = get-wmiobject win32_baseboard | Select-Object product
-New-HPUWPDriverPack -Platform $platformSystemID.product -OS 'win11' -OSVer $OSReleaseID -Path 'C:\Drivers'
-
 #Restart
 restart-computer
-
-
