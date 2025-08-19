@@ -128,6 +128,9 @@ if (Test-HPIASupport){
     $Global:MyOSDCloud.DriverPackName = "None"
 }
 
+#Testing MS Update Catalog Driver Sync
+$Global:MyOSDCloud.DriverPackName = 'Microsoft Update Catalog'
+
 #write variables to console
 Write-SectionHeader "OSDCloud Variables"
 Write-Output $Global:MyOSDCloud
@@ -146,6 +149,7 @@ Write-SectionHeader -Message "OSDCloud Process Complete, Running Custom Actions 
 
 #Restart
 restart-computer
+
 
 
 
