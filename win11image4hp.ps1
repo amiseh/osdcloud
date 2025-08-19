@@ -90,10 +90,10 @@ $OSLanguage = 'pl-pl'
 $Global:MyOSDCloud = [ordered]@{
     Restart = [bool]$False
     RecoveryPartition = [bool]$true
-    OEMActivation = [bool]$True
+    OEMActivation = [bool]$false
     WindowsUpdate = [bool]$false
     WindowsUpdateDrivers = [bool]$false
-    WindowsDefenderUpdate = [bool]$true
+    WindowsDefenderUpdate = [bool]$false
     SetTimeZone = [bool]$true
     ClearDiskConfirm = [bool]$False
     ShutdownSetupComplete = [bool]$false
@@ -133,15 +133,14 @@ if (Test-HPIASupport){
     $Global:MyOSDCloud.DevMode = [bool]$true
     $Global:MyOSDCloud.HPTPMUpdate = [bool]$true
 	
-    $Global:MyOSDCloud.HPIADrivers = [bool]$true
-    $Global:MyOSDCloud.HPIASoftware = [bool]$true
-    $Global:MyOSDCloud.HPIAFirmware = [bool]$true
-	
-    $Global:MyOSDCloud.HPBIOSWinUpdate = [bool]$false   
-    $Global:MyOSDCloud.HPIAALL = [bool]$true
+    $Global:MyOSDCloud.HPIAALL = [bool]$false
+	$Global:MyOSDCloud.HPIADrivers = [bool]$true
+    $Global:MyOSDCloud.HPIASoftware = [bool]$false
+    $Global:MyOSDCloud.HPIAFirmware = [bool]$true	
     $Global:MyOSDCloud.HPBIOSUpdate = [bool]$true
+    $Global:MyOSDCloud.HPBIOSWinUpdate = [bool]$false   
     
-    write-host "Setting DriverPackName to 'None'"
+	write-host "Setting DriverPackName to 'None'"
     $Global:MyOSDCloud.DriverPackName = "None"
 }
 
@@ -192,4 +191,5 @@ dism.exe /image:C: /Apply-Unattend:D:\unattended-basic-config.xml
 #Restart
 pause
 restart-computer
+
 
