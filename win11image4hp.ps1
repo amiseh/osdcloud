@@ -52,7 +52,6 @@ function Write-SectionSuccess {
     Write-DarkGrayDate
     Write-Host -ForegroundColor Green $Message
 }
-
 #endregion
 
 $ScriptName = 'OSDcloud script based on code from Gary'
@@ -85,8 +84,6 @@ $Global:MyOSDCloud = [ordered]@{
     CheckSHA1 = [bool]$true
 }
 
-############ do usuniecia ############
-
 write-host -ForegroundColor DarkGray "========================================================="
 write-host -ForegroundColor Cyan "HP Functions"
 
@@ -113,14 +110,6 @@ Write-Host -ForegroundColor Green "[+] Function Invoke-HPAnalyzer"
 Write-Host -ForegroundColor Green "[+] Function Invoke-HPDriverUpdate"
 iex (irm https://raw.githubusercontent.com/gwblok/garytown/master/hardware/HP/EMPS/Invoke-HPDriverUpdate.ps1)
 
-#Testing MS Update Catalog Driver Sync
-#$Global:MyOSDCloud.DriverPackName = 'Microsoft Update Catalog'
-#Used to Determine Driver Pack
-#$DriverPack = Get-OSDCloudDriverPack -Product $Product -OSVersion $OSVersion -OSReleaseID $OSReleaseID
-#if ($DriverPack){
-#    $Global:MyOSDCloud.DriverPackName = $DriverPack.Name
-#}
-
 #Enable HPIA | Update HP BIOS | Update HP TPM 
 if (Test-HPIASupport){
     Write-SectionHeader -Message "Detected HP Device, Enabling HPIA, HP BIOS and HP TPM Updates"
@@ -146,7 +135,6 @@ Write-SectionHeader -Message "Starting OSDCloud"
 write-host "Start-OSDCloud -OSName $OSName -OSEdition $OSEdition -OSActivation $OSActivation -OSLanguage $OSLanguage"
 
 Start-OSDCloud -OSName $OSName -OSEdition $OSEdition -OSActivation $OSActivation -OSLanguage $OSLanguage
-
 Write-SectionHeader -Message "OSDCloud Process Complete, Running Custom Actions From Script Before Reboot"
 
 #Copy CMTrace Local:
@@ -156,6 +144,7 @@ Write-SectionHeader -Message "OSDCloud Process Complete, Running Custom Actions 
 
 #Restart
 restart-computer
+
 
 
 
