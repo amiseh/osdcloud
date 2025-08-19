@@ -1,4 +1,18 @@
-#region Initialization
+<#
+.Name
+    win11image4hp.ps1
+
+.Synopsis
+    script used by OSDcloud to install Windows 11 image on HP business devices
+
+.DESCRIPTION
+    script used by OSDcloud to install Windows 11 image on HP business devices
+
+.Notes  
+    Author: Tomasz Omelaniuk/HP Inc based on garytown blog
+#>
+
+#### functions definitions
 function Write-DarkGrayDate {
     [CmdletBinding()]
     param (
@@ -52,8 +66,9 @@ function Write-SectionSuccess {
     Write-DarkGrayDate
     Write-Host -ForegroundColor Green $Message
 }
-#endregion
+#### end of functions definitions
 
+#### VARIABLES definitions
 $ScriptName = 'OSDcloud script based on code from Gary'
 $ScriptVersion = '25.08.19'
 Write-Host -ForegroundColor Green "$ScriptName $ScriptVersion"
@@ -63,8 +78,9 @@ $Product = (Get-MyComputerProduct)
 $Model = (Get-MyComputerModel)
 $Manufacturer = (Get-CimInstance -ClassName Win32_ComputerSystem).Manufacturer
 
-$OSVersion = 'Windows 11' #Used to Determine Driver Pack
-$OSReleaseID = '23H2' #Used to Determine Driver Pack
+#### important OS variables
+$OSVersion = 'Windows 11' 	#Used to Determine Driver Pack
+$OSReleaseID = '23H2' 		#Used to Determine Driver Pack
 $OSName = 'Windows 11 23H2 x64'
 $OSEdition = 'Enterprise'
 $OSActivation = 'Retail'
@@ -146,6 +162,7 @@ write-host "Start-OSDCloud -OSName $OSName -OSEdition $OSEdition -OSActivation $
 Start-OSDCloud -OSName $OSName -OSEdition $OSEdition -OSActivation $OSActivation -OSLanguage $OSLanguage
 Write-SectionHeader -Message "OSDCloud Process Complete, Running Custom Actions From Script Before Reboot"
 
+#### driver pack unpacking, removing and injecting
 $driverpackDetails = Get-HPDriverPackLatest
 $driverpackID = $driverpackDetails.Id
 [string]$ToolLocation = "C:\Drivers"
@@ -167,8 +184,11 @@ remove-item $ToolPath -Force
 $ToolPath = "$ToolLocation\$driverpackID.cva"
 remove-item $ToolPath -Force
 
+Dism /Image:C: /Add-Driver /Driver:C:\Drivers /Recurse
+
 #Restart
 restart-computer
+
 
 
 
