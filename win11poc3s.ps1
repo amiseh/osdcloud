@@ -293,8 +293,9 @@ try{
                 $SIGdownloadPath = "w:\" + $SIGdownloadurl.Substring($SIGdownloadurl.LastIndexOf("/") + 1)
                 $response = Invoke-WebRequest -Uri $SIGdownloadurl -UseBasicParsing -Method Head
                 if ($response.StatusCode -eq 200) {
-                    write-host -ForegroundColor Green " -> $SIGdownloadurl is reachable."                    
-                    write-host "Downloading digital signature of an OS image from url -> $($SIGdownloadurl)" -ForegroundColor White
+                    #write-host -ForegroundColor Green " -> $SIGdownloadurl is reachable."                    
+                    write-host -ForegroundColor Green " -> URL with digital signature of an OS image is reachable."
+                    write-host "Downloading digital signature of an OS image from URL -> $($SIGdownloadurl)" -ForegroundColor White
                     Get-FileFromWeb -URL $SIGdownloadurl -File $SIGdownloadPath
                 } else {
                     write-host -ForegroundColor Red " -> $SIGdownloadurl is not reachable."
