@@ -1,11 +1,3 @@
-<#
-
-Get-FileFromWeb -URL https://tohpsr.blob.core.windows.net/public/SR-TESTY/pl-pl_windows_11_business_editions_version_24h2.wim -File e:\pl-pl_windows_11_business_editions_version_24h2.wim
-https://tohpsr.blob.core.windows.net/public/SR-TESTY/en-us_windows_11_business_editions_version_24h2.wim
-https://tohpsr.blob.core.windows.net/public/SR-TESTY/pl-pl_windows_11_business_editions_version_24h2.wim
-
-#>
-
 function Get-FileFromWeb {
     param (
         # Parameter help description
