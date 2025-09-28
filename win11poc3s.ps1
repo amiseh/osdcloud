@@ -354,7 +354,7 @@ try{
                 remove-item $ToolPath -Force
                 Remove-Item -Path W:\Drivers\ -Recurse -Force
 
-                write-host "`n ==> Your OS is already successfully reinstalled. Click ENTER to reboot Your device.`n" -ForegroundColor White -BackgroundColor Green
+                write-host "`n ==> Your OS is already successfully reinstalled. Your laptop will reboot right now.`n" -ForegroundColor White -BackgroundColor Green
                 pause
                 Start-Sleep -Seconds 5
                 Restart-Computer -Force
