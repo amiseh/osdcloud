@@ -279,7 +279,8 @@ try{
                 $OSdownloadPath = "w:\" + $url.Substring($url.LastIndexOf("/") + 1)
                 $response = Invoke-WebRequest -Uri $OSdownloadurl -UseBasicParsing -Method Head
                 if ($response.StatusCode -eq 200) {
-                    write-host -ForegroundColor Green " -> $OSdownloadurl is reachable."                    
+                    #write-host -ForegroundColor Green " -> $OSdownloadurl is reachable."
+                    write-host -ForegroundColor Green " -> URL with an OS image is reachable."
                     write-host "Downloading OS image from url -> $($OSdownloadurl)" -ForegroundColor White
                     Get-FileFromWeb -URL $OSdownloadurl -File $OSdownloadPath
                 } else {
