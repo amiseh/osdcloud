@@ -238,6 +238,9 @@ do{
 write-host "`n -> You have selected YES. Formating and preparing Your hard drive..." -ForegroundColor Green
 diskpart.exe /s d:\diskpart_script.txt
 
+write-host "`n"
+pause
+
 $url = "https://tohpsr.blob.core.windows.net/public/SR-TESTY/3Simages.json"
 $jsonData = (New-Object System.Net.WebClient).DownloadString($url)
 $dataABC5 = $jsonData | ConvertFrom-Json
@@ -271,9 +274,20 @@ try{
                 write-host "Your sha256 -> $($dataABC5.OSimages.Get($getOS).sha256)"
                 write-host "Your signature url -> $($dataABC5.OSimages.Get($getOS).SIGNurl)`n"
 
+                #sprawdzanie dostepnosci URL z obrazem
+                $OSdownloadurl = $dataABC5.OSimages.Get($getOS).url
+                $OSdownloadPath = "w:\" + $url.Substring($url.LastIndexOf("/") + 1)
+                $response = Invoke-WebRequest -Uri $OSdownloadurl -UseBasicParsing -Method Head
+                if ($response.StatusCode -eq 200) {
+                    write-host -ForegroundColor Green " -> $OSdownloadurl is reachable."                    
+                    write-host "Downloading OS image from url -> $($OSdownloadurl)" -ForegroundColor White
+                    Get-FileFromWeb -URL $OSdownloadurl -File $OSdownloadPath
+                } else {
+                    write-host -ForegroundColor Red " -> $url is not reachable."
+                }
+
                 write-host "Checking hash of downloaded OS image: " -ForegroundColor White -NoNewline
-     #poprawic sciezke!!!!!           
-                $fileHash = (Get-FileHash C:\Users\tomasz\Desktop\3shape_sure_recover_OS_customer_reinatallation\en-us_windows_11_business_editions_version_24h2.wim -a sha256).Hash
+                $fileHash = (Get-FileHash $OSdownloadPath -a sha256).Hash
                 
                 if($fileHash -eq $dataABC5.OSimages.Get($getOS).sha256){                  
                     write-host " ALL IS GOOD `n" -ForegroundColor Black -BackgroundColor Green
@@ -281,6 +295,20 @@ try{
                     write-host " HASH DOESN'T MATCH ORIGINAL!!! `n" -ForegroundColor Black -BackgroundColor Red
                 }
 
+                #sprawdzanie dostepnosci URL z podpisem
+                $SIGdownloadurl = $dataABC5.OSimages.Get($getOS).url
+                $SIGdownloadPath = "w:\" + $url.Substring($url.LastIndexOf("/") + 1)
+                $response = Invoke-WebRequest -Uri $SIGdownloadurl -UseBasicParsing -Method Head
+                if ($response.StatusCode -eq 200) {
+                    write-host -ForegroundColor Green " -> $SIGdownloadurl is reachable."                    
+                    write-host "Downloading digital signature of an OS image from url -> $($SIGdownloadurl)" -ForegroundColor White
+                    Get-FileFromWeb -URL $SIGdownloadurl -File $SIGdownloadPath
+                } else {
+                    write-host -ForegroundColor Red " -> $SIGdownloadurl is not reachable."
+                }
+
+                write-host "Checking/verifying digital signature of an OS image: " -ForegroundColor White -NoNewline
+                
                 pause
              }catch{
                 write-host -ForegroundColor Red "`nERROR: Your selection - $($input) - is not available on the list!!!`n"
@@ -295,31 +323,12 @@ try{
 
     #sprawdzanie przede wszystkim SIECI!!!
     
-
     #sprawdzanie poprawnosci i dostepnosci pliku JSON
     #!!!! PODPISAC CYFROWO PLIK JSON plus zapisywac tez moze i sparwdzac HASH pliku? ale to musi byc w oddzielnym pliku bo pozniej podpis cyfrowy i jego weryfikacja nie bedzie przechodzic zreszta ciezko bedzie dodac hash do pliku dla ktorego hash obliczam, musi byc inny
     
-    
-    #sprawdzanie dostepnosci URL z obrazem
-    #$url = "https://tohpsr.blob.core.windows.net/public/SR-TESTY/pl-pl_windows_11_business_editions_version_24h2.wim"
-    #$response = Invoke-WebRequest -Uri $url -UseBasicParsing -Method Head
-    #if ($response.StatusCode -eq 200) {
-    #    write-host -ForegroundColor Green "$url is reachable."
-    #} else {
-    #    write-host -ForegroundColor Red "$url is not reachable."
-    #}
-
-       
-    #progress bar w trakcie pobierania
-    #Get-FileFromWeb -URL https://tohpsr.blob.core.windows.net/public/SR-TESTY/pl-pl_windows_11_business_editions_version_24h2.wim -File e:\pl-pl_windows_11_business_editions_version_24h2.wim
-
     ### mozna dodac powiadomienie na komorke ze komp jest reinstalowany!!!! poprzez wyslanie zapytania post/get do netu!!! info - model kompa + SerialNumber
     
-    #$response = Invoke-RestMethod -Uri https://ifconfig.co/json
-    #ip, country, city, timez_zone, hostname, 
-
-    #formatowanie dysku C
-    #mapowanie partycji EFI na dysk S
+    
     #pobieranie obrazu na dysk C
     
     #sprawdzanie HASHa sha256 pobranego obrazu
