@@ -313,6 +313,11 @@ try{
                 
                 if($digitalSignature -eq "Verified OK"){                  
                     write-host " ALL IS GOOD `n" -ForegroundColor Black -BackgroundColor Green
+
+                    write-host " -> loading OS image onto Your PC" -ForegroundColor White
+                    dism /Apply-Image /ImageFile:$OSdownloadPath /Index:1 /ApplyDir:W:\
+                    write-host " -> configuring OS booting" -ForegroundColor White
+                    bcdboot W:\Windows
                 }else{
                     write-host " OS IMAGE IS COMPROMISED!!! `n" -ForegroundColor Black -BackgroundColor Red
                 }
