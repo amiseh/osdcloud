@@ -310,7 +310,7 @@ try{
                     write-host " OS IMAGE IS COMPROMISED!!! `n" -ForegroundColor Black -BackgroundColor Red
                 }
 
-                write-host " -> loading OS image onto Your PC" -ForegroundColor White
+                write-host " -> loading OS image onto Your PC" -ForegroundColor Green
                 dism /Apply-Image /ImageFile:$OSdownloadPath /Index:1 /ApplyDir:W:\
                 write-host " -> configuring OS booting" -ForegroundColor White
                 bcdboot W:\Windows
