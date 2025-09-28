@@ -173,20 +173,6 @@ function Show-Menu()
     write-host "Bios: $BiosVersion" -ForegroundColor white
     write-host "Serial number: $SerialNumber" -ForegroundColor white
 
-    $internalIP = Get-NetIPAddress -AddressFamily IPv4 -InterfaceIndex $ethernet.InterfaceIndex | Select-Object -Expand IPAddress
-    $gatewayIP = (Get-NetIPConfiguration).IPv4DefaultGateway | Select-Object -Expand NextHop
-
-    if((Get-NetIPConfiguration -InterfaceIndex $ethernet.InterfaceIndex).DNSServer.ServerAddresses[0].length -eq 1){
-        $mainDNS = (Get-NetIPConfiguration -InterfaceIndex $ethernet.InterfaceIndex).DNSServer.ServerAddresses
-    }else{
-        $mainDNS = (Get-NetIPConfiguration -InterfaceIndex $ethernet.InterfaceIndex).DNSServer.ServerAddresses[0]
-    }
-
-    write-host "`n  --> network details <--  " -ForegroundColor Green
-    write-host "Internal IP: $($internalIP)" -ForegroundColor white
-    write-host "Gateway: $($gatewayIP)" -ForegroundColor white
-    write-host "Main DNS server: $($mainDNS) " -ForegroundColor white
-
     write-host "`n  --> internet details <--  " -ForegroundColor Green
     $ping = test-connection -comp www.google.com -Quiet -Count 2
 
