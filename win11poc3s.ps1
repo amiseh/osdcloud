@@ -357,7 +357,6 @@ try{
 
                 write-host "`n ==> Your OS is already successfully reinstalled. Your laptop will reboot right now.`n" -ForegroundColor White -BackgroundColor Green
                 pause
-                Start-Sleep -Seconds 5
                 Restart-Computer -Force
                 
              }catch{
