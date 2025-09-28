@@ -355,6 +355,12 @@ try{
                 remove-item $ToolPath -Force
                 Remove-Item -Path W:\Drivers\ -Recurse -Force
 
+                #### adding some OOBE configuration
+                xcopy D:\unattended-basic-config.xml w:\Windows\System32\Sysprep\Panther\Unattend\Unattend.xml /-I
+                xcopy D:\unattended-basic-config.xml w:\Windows\System32\Sysprep\Unattend.xml /-I
+                xcopy D:\unattended-basic-config.xml w:\Windows\System32\Sysprep\Panther\Unattend\Autounattend.xml /-I
+                xcopy D:\unattended-basic-config.xml w:\Windows\System32\Sysprep\Autounattend.xml /-I
+
                 write-host "`n ==> Your OS is already successfully reinstalled. Your laptop will reboot right now.`n" -ForegroundColor White -BackgroundColor Green
                 pause
                 Restart-Computer -Force
