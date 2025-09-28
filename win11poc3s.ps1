@@ -281,13 +281,13 @@ try{
                 if ($response.StatusCode -eq 200) {
                     #write-host -ForegroundColor Green " -> $OSdownloadurl is reachable."
                     write-host -ForegroundColor Green " -> URL with an OS image is reachable."
-                    write-host "Downloading OS image from url -> $($OSdownloadurl)" -ForegroundColor White
+                    write-host "Downloading OS image from URL -> $($OSdownloadurl)" -ForegroundColor White
                     Get-FileFromWeb -URL $OSdownloadurl -File $OSdownloadPath
                 } else {
                     write-host -ForegroundColor Red " -> $url is not reachable."
                 }
 
-                write-host "`nChecking hash of downloaded OS image: " -ForegroundColor White -NoNewline
+                write-host "`nChecking HASH of downloaded OS image: " -ForegroundColor White -NoNewline
                 $fileHash = (Get-FileHash $OSdownloadPath -a sha256).Hash
                 
                 if($fileHash -eq $dataABC5.OSimages.Get($getOS).sha256){                  
