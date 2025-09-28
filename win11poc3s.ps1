@@ -276,7 +276,7 @@ try{
 
                 #sprawdzanie dostepnosci URL z obrazem
                 $OSdownloadurl = $dataABC5.OSimages.Get($getOS).url
-                $OSdownloadPath = "w:\" + $url.Substring($url.LastIndexOf("/") + 1)
+                $OSdownloadPath = "w:\" + $OSdownloadurl.Substring($OSdownloadurl.LastIndexOf("/") + 1)
                 $response = Invoke-WebRequest -Uri $OSdownloadurl -UseBasicParsing -Method Head
                 if ($response.StatusCode -eq 200) {
                     #write-host -ForegroundColor Green " -> $OSdownloadurl is reachable."
@@ -298,7 +298,7 @@ try{
 
                 #sprawdzanie dostepnosci URL z podpisem
                 $SIGdownloadurl = $dataABC5.OSimages.Get($getOS).SIGNurl
-                $SIGdownloadPath = "w:\" + $url.Substring($url.LastIndexOf("/") + 1)
+                $SIGdownloadPath = "w:\" + $SIGdownloadurl.Substring($SIGdownloadurl.LastIndexOf("/") + 1)
                 $response = Invoke-WebRequest -Uri $SIGdownloadurl -UseBasicParsing -Method Head
                 if ($response.StatusCode -eq 200) {
                     write-host -ForegroundColor Green " -> $SIGdownloadurl is reachable."                    
