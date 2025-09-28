@@ -317,10 +317,21 @@ try{
                 Write-Host -ForegroundColor Green "`n -> adding - Function Get-HPDriverPackLatest"
                 iex (irm https://raw.githubusercontent.com/OSDeploy/OSD/master/Public/OSDCloudTS/Test-HPIASupport.ps1)
 
+                write-host " -> looking for HP driver pack for Your device - $($ComputerModel)" -ForegroundColor White
                 $driverpackDetails = Get-HPDriverPackLatest
-                write-host " -> downloading HP driver pack for Your device - $($ComputerModel)" -ForegroundColor White
-                write-host " -> HP driver pack for Your device - URL -> $($driverpackDetails.url)" -ForegroundColor White
                 $driverpackID = $driverpackDetails.Id
+
+                #sprawdzanie dostepnosci URL z driverpackiem...
+                $driverPackDownloadURL = $driverpackDetails.url
+                $driverPackdownloadPath = "w:\" + $driverPackDownloadURL.Substring($driverPackDownloadURL.LastIndexOf("/") + 1)
+                $response = Invoke-WebRequest -Uri $driverPackDownloadURL -UseBasicParsing -Method Head
+                if ($response.StatusCode -eq 200) {
+                    write-host -ForegroundColor Green " -> driver pack URL is reachable."                    
+                    write-host "Downloading HP driver pack for Your device -> $($driverPackDownloadURL)" -ForegroundColor White
+                    Get-FileFromWeb -URL $driverPackDownloadURL -File $driverPackdownloadPath
+                } else {
+                    write-host -ForegroundColor Red " -> $driverPackDownloadURL is not reachable."
+                }
                 
                 break
              }catch{
