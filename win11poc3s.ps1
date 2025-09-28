@@ -369,3 +369,5 @@ try{
 }
 
 #$dataABC5.OSimages.Length
+
+remove-item -path w:\3Simages.json -Force
