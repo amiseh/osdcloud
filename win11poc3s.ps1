@@ -180,7 +180,7 @@ function Show-Menu()
         write-host "Internet connection: " -ForegroundColor White -NoNewline
         write-host " WORKS " -ForegroundColor Black -BackgroundColor Green
 
-        $response = Invoke-WebRequest -Uri "https://ifconfig.co/json" -ContentType 'application/json; charset=utf8' -Headers @{"Accept-Charset" = "utf-8"} | Select-Object -Expand Content | ConvertFrom-Json
+        $response = Invoke-WebRequest -Uri "https://ifconfig.co/json" -UseBasicParsing | Select-Object -Expand Content | ConvertFrom-Json
         write-host "External IP: $($response.ip)" -ForegroundColor white
         write-host "`n  --> location details <--  " -ForegroundColor Green
         write-host "City: $($response.city)" -ForegroundColor white
