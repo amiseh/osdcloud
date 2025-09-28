@@ -317,12 +317,12 @@ try{
                 Write-Host -ForegroundColor Green "`n -> adding - Function Get-HPDriverPackLatest"
                 iex (irm https://raw.githubusercontent.com/OSDeploy/OSD/master/Public/OSDCloudTS/Test-HPIASupport.ps1)
 
-                write-host " -> looking for HP driver pack for Your device - $($ComputerModel)" -ForegroundColor White
+                write-host " -> looking for HP driver pack for Your device - $ComputerModel" -ForegroundColor White
                 $driverpackDetails = Get-HPDriverPackLatest
                 $driverpackID = $driverpackDetails.Id
 
                 #sprawdzanie dostepnosci URL z driverpackiem...
-                $driverPackDownloadURL = $driverpackDetails.url
+                $driverPackDownloadURL = "https://" + $driverpackDetails.url
                 $driverPackdownloadPath = "w:\" + $driverPackDownloadURL.Substring($driverPackDownloadURL.LastIndexOf("/") + 1)
                 $response = Invoke-WebRequest -Uri $driverPackDownloadURL -UseBasicParsing -Method Head
                 if ($response.StatusCode -eq 200) {
@@ -332,6 +332,25 @@ try{
                 } else {
                     write-host -ForegroundColor Red " -> $driverPackDownloadURL is not reachable."
                 }
+
+                write-host "Extracting HP driver pack to the temp folder" -ForegroundColor White
+                [string]$ToolLocation = "W:\Drivers"
+                $ToolPath = "$ToolLocation\$driverpackID.exe"
+                if (!(Test-Path -Path $ToolPath)){
+                    Write-Output "Unable to find $ToolPath"
+                	pause
+                    Exit -1
+                }                
+                $ToolArg = "/s /f W:\Drivers\"
+                $Process = Start-Process -FilePath $ToolPath -ArgumentList $ToolArg -Wait -PassThru
+
+                write-host " -> injecting driver pack to the OS image" -ForegroundColor White
+                Dism /Image:W: /Add-Driver /Driver:W:\Drivers /Recurse
+
+                #### cleaning drivers 
+                write-host " -> cleaning driver pack and temp folder" -ForegroundColor White
+                remove-item $ToolPath -Force
+                Remove-Item -Path C:\Drivers\ -Recurse -Force
                 
                 break
              }catch{
