@@ -173,14 +173,6 @@ function Show-Menu()
     write-host "Bios: $BiosVersion" -ForegroundColor white
     write-host "Serial number: $SerialNumber" -ForegroundColor white
 
-    do{
-        $ethernet = Get-NetAdapter -Physical | Where {$_.Status -eq 'Up'}#-and $_.MediaType -eq 802.3}
-        if ([string]::IsNullOrEmpty($ethernet)) {
-            write-host "`nTo continue PLEASE connect LAN cable!!!" -ForegroundColor Red
-            [System.Windows.MessageBox]::Show('To continue PLEASE connect LAN cable!!!!!!','Error','OK','Error') | Out-Null
-        }
-    }until(!([string]::IsNullOrEmpty($ethernet)))
-
     $internalIP = Get-NetIPAddress -AddressFamily IPv4 -InterfaceIndex $ethernet.InterfaceIndex | Select-Object -Expand IPAddress
     $gatewayIP = (Get-NetIPConfiguration).IPv4DefaultGateway | Select-Object -Expand NextHop
 
