@@ -317,7 +317,9 @@ try{
                 Write-Host -ForegroundColor Green "`n -> adding - Function Get-HPDriverPackLatest"
                 iex (irm https://raw.githubusercontent.com/OSDeploy/OSD/master/Public/OSDCloudTS/Test-HPIASupport.ps1)
 
-                write-host " -> looking for HP driver pack for Your device - $ComputerModel" -ForegroundColor White
+                $comp = Get-WmiObject Win32_ComputerSystem
+                $compModel = $comp.Model                
+                write-host " -> looking for HP driver pack for Your device - $compModel" -ForegroundColor White
                 $driverpackDetails = Get-HPDriverPackLatest
                 $driverpackID = $driverpackDetails.Id
 
@@ -334,7 +336,7 @@ try{
                 }
 
                 write-host "Extracting HP driver pack to the temp folder" -ForegroundColor White
-                [string]$ToolLocation = "W:\Drivers"
+                [string]$ToolLocation = "W:"
                 $ToolPath = "$ToolLocation\$driverpackID.exe"
                 if (!(Test-Path -Path $ToolPath)){
                     Write-Output "Unable to find $ToolPath"
@@ -350,9 +352,13 @@ try{
                 #### cleaning drivers 
                 write-host " -> cleaning driver pack and temp folder" -ForegroundColor White
                 remove-item $ToolPath -Force
-                Remove-Item -Path C:\Drivers\ -Recurse -Force
+                Remove-Item -Path W:\Drivers\ -Recurse -Force
+
+                write-host "`n ==> Your OS is already successfully reinstalled. Click ENTER to reboot Your device.`n" -ForegroundColor White -BackgroundColor Green
+                pause
+                Start-Sleep -Seconds 5
+                Restart-Computer -Force
                 
-                break
              }catch{
                 write-host -ForegroundColor Red "`nERROR: Your selection - $($input) - is not available on the list!!!`n"
                 pause
