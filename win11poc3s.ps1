@@ -287,7 +287,7 @@ try{
                     write-host -ForegroundColor Red " -> $url is not reachable."
                 }
 
-                write-host "Checking hash of downloaded OS image: " -ForegroundColor White -NoNewline
+                write-host "`nChecking hash of downloaded OS image: " -ForegroundColor White -NoNewline
                 $fileHash = (Get-FileHash $OSdownloadPath -a sha256).Hash
                 
                 if($fileHash -eq $dataABC5.OSimages.Get($getOS).sha256){                  
@@ -297,7 +297,7 @@ try{
                 }
 
                 #sprawdzanie dostepnosci URL z podpisem
-                $SIGdownloadurl = $dataABC5.OSimages.Get($getOS).url
+                $SIGdownloadurl = $dataABC5.OSimages.Get($getOS).SIGNurl
                 $SIGdownloadPath = "w:\" + $url.Substring($url.LastIndexOf("/") + 1)
                 $response = Invoke-WebRequest -Uri $SIGdownloadurl -UseBasicParsing -Method Head
                 if ($response.StatusCode -eq 200) {
@@ -308,7 +308,7 @@ try{
                     write-host -ForegroundColor Red " -> $SIGdownloadurl is not reachable."
                 }
 
-                write-host "Checking/verifying digital signature of an OS image: " -ForegroundColor White -NoNewline
+                write-host "`nChecking/verifying digital signature of an OS image: " -ForegroundColor White -NoNewline
                 $digitalSignature = D:\OpenSSL-Win64\bin\openssl.exe dgst -sha256 -verify D:\OPENSSL_public.pem -signature $SIGdownloadPath $OSdownloadPath
                 
                 if($digitalSignature -eq "Verified OK"){                  
