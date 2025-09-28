@@ -196,22 +196,50 @@ function Show-Menu()
     Write-Host -ForegroundColor Green “`n===== Please select the OS to be installed =====`n”
 }
 
-<#
-$url = "https://gist.githubusercontent.com/sanderstad/1c47c1add7476945857bff4d8dc2be59/raw/d12f30e4aaf9d2ee18e4539b394a12e63dea0c9c/SampleJSON1.json"
-$json = (New-Object System.Net.WebClient).DownloadString($url)
-
-$data = $json | ConvertFrom-Json
-
-$data | ConvertTo-Json | Out-File $env:temp\json.txt -Force
-$data2 = Get-Content $env:temp\json.txt | ConvertFrom-Json
-
-$data2.colors.Get(1)
-#>
-
 ######
 ##### spradzenie sieci dac tutaj/pozniej netu i dopiero jak bedzie OK, to pobierac JSON'a, sprawdzac HASH i podpis i dopiero po tym pokazywac menu!!!
 
-$jsonData = Get-Content -Path "C:\Users\tomasz\Desktop\3shape_sure_recover_OS_customer_reinatallation\3Simages.json"
+[int]$tries = 2
+
+do{
+    cls
+
+    Write-Host ".: OS reimaging tool :."
+    Write-Host "`n -> prepared by tomasz.omelaniuk@hp.com`n"
+    Write-Host "----------------------------------------------"
+    Write-Host "remaining number of attempts: $($tries + 1)"
+    Write-Host "----------------------------------------------`n"
+
+    $input = Read-Host “Please enter the password”
+
+    if($tries -eq 0){                  
+        write-host "`nYou are not allowed to use this tool! Your PC will be rebooted in a while" -ForegroundColor White -BackgroundColor Red
+        Start-Sleep -Seconds 5
+        Restart-Computer -Force
+    }else{
+        $tries=$tries - 1
+    }
+
+}until ($input -eq ‘P@$$w0rd’)
+
+write-host "`n -> Password OK...Let's start the show ;)" -ForegroundColor Green
+
+do{
+    $yesno = Read-Host “`nAre You sure You want to reinstall Your laptop? Choosing Y will erase Your hard drive (Y/N)”
+
+    if($yesno -eq 'n’ -or $yesno -eq 'N'){                  
+        write-host "`nYou have selected NO. Your PC will be rebooted in a while." -ForegroundColor White -BackgroundColor Red
+        Start-Sleep -Seconds 5
+        Restart-Computer -Force
+    }
+
+}until ($yesno -eq 'y’ -or $yesno -eq 'Y')
+
+write-host "`n -> You have selected YES. Formating and preparing Your hard drive..." -ForegroundColor Green
+diskpart.exe /s d:\diskpart_script.txt
+
+$url = "https://tohpsr.blob.core.windows.net/public/SR-TESTY/3Simages.json"
+$jsonData = (New-Object System.Net.WebClient).DownloadString($url)
 $dataABC5 = $jsonData | ConvertFrom-Json
 
 #$dataABC5.OSimages
