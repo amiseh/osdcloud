@@ -308,6 +308,13 @@ try{
                 }
 
                 write-host "Checking/verifying digital signature of an OS image: " -ForegroundColor White -NoNewline
+                $digitalSignature = D:\OpenSSL-Win64\bin\openssl.exe dgst -sha256 -verify D:\OPENSSL_public.pem -signature $SIGdownloadPath $OSdownloadPath
+                
+                if($digitalSignature -eq "Verified OK"){                  
+                    write-host " ALL IS GOOD `n" -ForegroundColor Black -BackgroundColor Green
+                }else{
+                    write-host " OS IMAGE IS COMPROMISED!!! `n" -ForegroundColor Black -BackgroundColor Red
+                }
                 
                 pause
              }catch{
