@@ -270,9 +270,9 @@ try{
                 $getOS = [int]$input
                 write-host "`nYour choice -> $($dataABC5.OSimages.Get($getOS).desc)`n"
 
-                write-host "Your URL -> $($dataABC5.OSimages.Get($getOS).url)"
-                write-host "Your sha256 -> $($dataABC5.OSimages.Get($getOS).sha256)"
-                write-host "Your signature url -> $($dataABC5.OSimages.Get($getOS).SIGNurl)`n"
+                write-host "Your OS image URL -> $($dataABC5.OSimages.Get($getOS).url)"
+                write-host "Your OS image HASH sha256 -> $($dataABC5.OSimages.Get($getOS).sha256)"
+                write-host "Your OS digital signature URL -> $($dataABC5.OSimages.Get($getOS).SIGNurl)`n"
 
                 #sprawdzanie dostepnosci URL z obrazem
                 $OSdownloadurl = $dataABC5.OSimages.Get($getOS).url
