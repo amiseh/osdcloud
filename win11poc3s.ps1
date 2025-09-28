@@ -334,40 +334,18 @@ try{
         }
     }until ($input -eq ‘q’)
 
-    #sprawdzanie przede wszystkim SIECI!!!
-    
     #sprawdzanie poprawnosci i dostepnosci pliku JSON
     #!!!! PODPISAC CYFROWO PLIK JSON plus zapisywac tez moze i sparwdzac HASH pliku? ale to musi byc w oddzielnym pliku bo pozniej podpis cyfrowy i jego weryfikacja nie bedzie przechodzic zreszta ciezko bedzie dodac hash do pliku dla ktorego hash obliczam, musi byc inny
     
     ### mozna dodac powiadomienie na komorke ze komp jest reinstalowany!!!! poprzez wyslanie zapytania post/get do netu!!! info - model kompa + SerialNumber
-    
-    
-    #pobieranie obrazu na dysk C
-    
+        
     #sprawdzanie HASHa sha256 pobranego obrazu
     #sprawdzanie podpisu cyfrowego pliku certyfikatem publicznym ktory bylby w customowym agencie tj WinPE
-    
-    
-    #weryfikacja
-    #.\openssl base64 -d -in e:\pl-pl_windows_11_business_editions_version_24h2.wim.sig.txt -out e:\pl-pl_windows_11.sha256
-    #.\openssl dgst -sha256 -verify e:\OPENSSL_public.pem -signature e:\pl-pl_windows_11.sha256 e:\pl-pl_windows_11_business_editions_version_24h2.wim
-    # ALBO -> Verification Failure
-    # ALBO -> Verified OK
-
-    
-    #jesli weryfikacja OK -> DISM i wrzucanie obrazu na dysk C
-    #poprawienie EFI / bootowanie
-    #pobranie driver packa dla danej platformy/lapka
-    #wstrzykniecie sterownikow do obrazu
-    #podsumowanie i restart po ENTERze
-
 
 }catch{
     #Write-Output -foreground red "ERROR"
     #Write-Host -Foreground Red -Background Black
     $_
 }
-
-#$dataABC5.OSimages.Length
 
 remove-item -path w:\3Simages.json -Force
