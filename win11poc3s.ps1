@@ -313,6 +313,14 @@ try{
                 dism /Apply-Image /ImageFile:$OSdownloadPath /Index:1 /ApplyDir:W:\
                 write-host " -> configuring OS booting" -ForegroundColor White
                 bcdboot W:\Windows
+
+                Write-Host -ForegroundColor Green "`n -> adding - Function Get-HPDriverPackLatest"
+                iex (irm https://raw.githubusercontent.com/OSDeploy/OSD/master/Public/OSDCloudTS/Test-HPIASupport.ps1)
+
+                $driverpackDetails = Get-HPDriverPackLatest
+                write-host " -> downloading HP driver pack for Your device - $($ComputerModel)" -ForegroundColor White
+                write-host " -> HP driver pack for Your device - URL -> $($driverpackDetails.url)" -ForegroundColor White
+                $driverpackID = $driverpackDetails.Id
                 
                 break
              }catch{
@@ -340,4 +348,4 @@ try{
     $_
 }
 
-remove-item -path w:\3Simages.json -Force
+#remove-item -path w:\3Simages.json -Force
