@@ -336,7 +336,7 @@ try{
                     write-host -ForegroundColor Red " -> $driverPackDownloadURL is not reachable."
                 }
 
-                write-host "Extracting HP driver pack to the temp folder" -ForegroundColor White
+                write-host "`nExtracting HP driver pack to the temp folder" -ForegroundColor White
                 [string]$ToolLocation = "W:"
                 $ToolPath = "$ToolLocation\$driverpackID.exe"
                 if (!(Test-Path -Path $ToolPath)){
